@@ -80,9 +80,10 @@ int main()
 		{
 			paused = false;
 		}
+
 		if (!paused)
 		{
-			// Update the scene
+			// Mesure time
 			Time dt = clock.restart();
 
 			// Setup the bee
@@ -191,7 +192,6 @@ int main()
 					cloud3Active = false;
 				}
 			}
-
 		}
 		// Draw scene
 		window.clear();
