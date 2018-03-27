@@ -2,6 +2,7 @@
 //
 
 #include "stdafx.h"
+#include <sstream>
 #include <SFML\Graphics.hpp>
 
 using namespace sf;
@@ -14,6 +15,35 @@ int main()
 	// Create and open a window for the game
 	RenderWindow window(vm, "Timber", Style::Fullscreen);
 	
+	// Draw some text
+	int score = 0;
+	sf::Text messageText;
+	sf::Text scoreText;
+
+	Font font;
+	font.loadFromFile("fonts/KOMIKAP_.ttf");
+
+	messageText.setFont(font);
+	scoreText.setFont(font);
+
+	messageText.setString("Press enter to Start!");
+	scoreText.setString("Score = 0");
+
+	messageText.setCharacterSize(75);
+	scoreText.setCharacterSize(100);
+
+	messageText.setFillColor(Color::Red);
+	scoreText.setFillColor(Color::Red);
+
+	FloatRect textRect = messageText.getLocalBounds();
+	messageText.setOrigin(	textRect.left +
+							textRect.width / 2.0f,
+							textRect.top +
+							textRect.height / 2.0f
+						);
+	messageText.setPosition(1920 / 2.0f, 1080 / 2.0f);
+	scoreText.setPosition(20, 20);
+
 	// Background
 	Texture textureBackground;
 	textureBackground.loadFromFile("graphics/background.png");
@@ -192,6 +222,11 @@ int main()
 					cloud3Active = false;
 				}
 			}
+
+			// Update the score text
+			std::stringstream ss;
+			ss << "Score = " << score;
+			scoreText.setString(ss.str());
 		}
 		// Draw scene
 		window.clear();
@@ -204,6 +239,13 @@ int main()
 		window.draw(spriteBee);
 		
 		window.draw(spriteTree);
+
+		window.draw(scoreText);
+		if (paused)
+		{
+			// Draw the score
+			window.draw(messageText);
+		}
 
 		// Show everything we just drew
 		window.display();
